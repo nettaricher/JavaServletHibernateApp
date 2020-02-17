@@ -21,11 +21,24 @@ public class UserDao {
      *
      * @see model.User
      */
+
+    private static SessionFactory sessionFactory;
+
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            try {
+                sessionFactory = (new AnnotationConfiguration()).configure().buildSessionFactory();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return sessionFactory;
+    }
+
     public boolean saveUser(User user) {
         Transaction transaction = null;
         try {
-            SessionFactory factory = (new AnnotationConfiguration()).configure().buildSessionFactory();
-            Session session = factory.openSession();
+            Session session = getSessionFactory().openSession();
             // start a transaction
             transaction = session.beginTransaction();
             // save the student object
