@@ -70,7 +70,12 @@ public class UserServlet extends HttpServlet {
         String securedPassword = PasswordUtils.generateSecurePassword(request.getParameter("password"), salt);
 
         if (userDao.validate(email,securedPassword)) {
-            System.out.println("true"+ securedPassword);
+            //System.out.println("true"+ securedPassword);
+            Cookie loginCookie = new Cookie("user",email);
+            //setting cookie to expiry in 30 mins
+            loginCookie.setMaxAge(30*60);
+            response.addCookie(loginCookie);
+            response.sendRedirect("quiz.jsp");
         }
         else {
             System.out.println(securedPassword);

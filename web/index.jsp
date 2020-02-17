@@ -11,7 +11,18 @@
           crossorigin="anonymous">
 </head>
 <body>
-
+<%
+    String userName = null;
+    Cookie[] cookies = request.getCookies();
+    if(cookies !=null){
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals("user"))
+                userName = cookie.getValue();
+        }
+    }
+    if(userName != null)
+        response.sendRedirect("quiz.jsp");
+%>
 <div class="container col-md-8 col-md-offset-3" style="overflow: auto">
     <h1>Login Form</h1>
     <form action="<%=request.getContextPath()%>/login" method="post">
